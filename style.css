@@ -1,3 +1,20 @@
-#root {
-  color: red;
+body{
+}
+
+
+#root {background-color: rgb(47, 56, 65);
+  color: green;
+  max-width:99% ;
+}
+
+div{  max-width: 32%;
+  
+  margin: 10px;
+padding: 20px;
+font-size: 15px;
+text-align: center;
+
+display: grid}
+img{
+  align-items: center;
 }
