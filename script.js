@@ -14,12 +14,13 @@ function makePageForEpisodes(episodeList) {
     const { medium } = image;
 
     let codeSeason = 0;
-    if (season < 9) {
+    if (season <=9) {
       codeSeason = "0" + season;
     }
-
+else {codeSeason= season}
     let codeEpisode = 0;
-    if (season < 9) codeEpisode = "0" + number;
+    if (number <=9) {codeEpisode = "0" + number}
+    else {codeEpisode = number};
     //adds individual divs
     const perEpisode = document.createElement("div");
     perEpisode.className = "episodeInfo";
