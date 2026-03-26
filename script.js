@@ -10,17 +10,12 @@ function makePageForEpisodes(episodeList) {
 
   // loop for extracting the data and making any ajustments
   for (let i = 0; i < episodeList.length; i++) {
-    const { id, name, season, number, summary, image } = episodeList[i];
+    const { name, season, number, summary, image } = episodeList[i];
     const { medium } = image;
 
-    let codeSeason = 0;
-    if (season <=9) {
-      codeSeason = "0" + season;
-    }
-else {codeSeason= season}
-    let codeEpisode = 0;
-    if (number <=9) {codeEpisode = "0" + number}
-    else {codeEpisode = number};
+    let codeSeason = season.toString().padStart(2, "0");
+    let codeEpisode = number.toString().padStart(2, "0");
+
     //adds individual divs
     const perEpisode = document.createElement("div");
     perEpisode.className = "episodeInfo";
@@ -31,14 +26,13 @@ else {codeSeason= season}
     pic.src = medium;
     perEpisode.appendChild(pic);
     const code = document.createTextNode(
-      `id:- S${codeSeason}E${codeEpisode}  `,
+      `S${codeSeason}E${codeEpisode}  `,
     );
 
-    const title = document.createTextNode(
-      `title:- ${name}  season:- ${codeSeason} episode:- ${codeEpisode}`,
-    );
+    const title = document.createTextNode(name);
+    
     const summaryOfEpisode = document.createElement("p");
-    summaryOfEpisode.className = "summery";
+    summaryOfEpisode.className = "summary";
     summaryOfEpisode.innerHTML = summary;
     perEpisode.appendChild(code);
     perEpisode.appendChild(title);
