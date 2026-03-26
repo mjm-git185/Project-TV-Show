@@ -2,19 +2,19 @@ body{
 }
 
 
-#root {background-color: rgb(47, 56, 65);
+#root {
   color: green;
   max-width:99% ;
 }
 
-div{  max-width: 32%;
-  
+.episodeInfo{  max-width: 32%;
+  background-color: rgb(47, 56, 65);
   margin: 10px;
 padding: 20px;
 font-size: 15px;
 text-align: center;
+border: 50px;
+border-color: aqua;
 
-display: grid}
-img{
-  align-items: center;
-}
+display: grid }
+
