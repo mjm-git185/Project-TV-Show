@@ -8,21 +8,40 @@ function makePageForEpisodes(episodeList) {
   //getting acsess to the dom eement i need
   const rootElem = document.getElementById("root");
 
-  // loop for extracting the data and placeing it on the page
+  // loop for extracting the data and making any ajustments
   for (let i = 0; i < episodeList.length; i++) {
     const { id, name, season, number, summary, image } = episodeList[i];
     const { medium } = image;
-    //apends a div and a srting inside it
+
+    let codeSeason = 0;
+    if (season < 9) {
+      codeSeason = "0" + season;
+    }
+
+    let codeEpisode = 0;
+    if (season < 9) codeEpisode = "0" + number;
+    //adds individual divs
     const perEpisode = document.createElement("div");
-     rootElem.appendChild(perEpisode);
+    perEpisode.className = "episodeInfo";
+
+    //apends a div and a srting inside it
+    rootElem.appendChild(perEpisode);
     const pic = new Image();
     pic.src = medium;
-    rootElem.appendChild(pic);
-    const infoAboutEpisode = document.createTextNode(
-      `id:-${id} title:-${name} season:-${season} episode:-${number} ${summary} `,
+    perEpisode.appendChild(pic);
+    const code = document.createTextNode(
+      `id:- S${codeSeason}E${codeEpisode}  `,
     );
-    rootElem.appendChild( infoAboutEpisode);
-    
+
+    const title = document.createTextNode(
+      `title:- ${name}  season:- ${codeSeason} episode:- ${codeEpisode}`,
+    );
+    const summaryOfEpisode = document.createElement("p");
+    summaryOfEpisode.className = "summery";
+    summaryOfEpisode.innerHTML = summary;
+    perEpisode.appendChild(code);
+    perEpisode.appendChild(title);
+    perEpisode.appendChild(summaryOfEpisode);
   }
 }
 window.onload = setup;
