@@ -5,6 +5,7 @@ const state = { allEpisodes: getAllEpisodes(), searchTerm: "" };
 // STEP 2: when the page loads, show all episodes
 function setup() {
   makePageForEpisodes(state.allEpisodes);
+  createDropSelector(state.allEpisodes);
 }
 
 // STEP 3: getting acsess to the dom eement i need (to put the episode cards)
@@ -15,15 +16,17 @@ const rootElem = document.getElementById("root");
 function createEpisodeCard(episodeList) {
   // loop for extracting the data and making any ajustments
   for (let i = 0; i < episodeList.length; i++) {
-    const { name, season, number, summary, image } = episodeList[i];
+    const { id, name, season, number, summary, image } = episodeList[i];
     const { medium } = image;
-
+    
     let codeSeason = season.toString().padStart(2, "0");
     let codeEpisode = number.toString().padStart(2, "0");
+
 
     //adds individual divs
     const perEpisode = document.createElement("div");
     perEpisode.className = "episodeInfo";
+    perEpisode.id = id;
 
     //apends a div and a srting inside it
     rootElem.appendChild(perEpisode);
@@ -74,3 +77,29 @@ function handleSearchInput(event) {
 
 // STEP 9: setup when page load
 window.onload = setup;
+
+// STEP 10: create a drop down selector for all episodes
+function createDropSelector(allEpisodes) {
+  const selector = document.getElementById("selector");
+  selector.addEventListener("change", handleDropChange);//when user selects an episode, call handleDropChange which will find the anchor tag with the id and scroll to it
+  for (const episode of allEpisodes) {
+    const { id, name, season, number } = episode;
+    const codeSeason = season.toString().padStart(2, "0");
+    const codeEpisode = number.toString().padStart(2, "0");
+    const option = document.createElement("option"); 
+    option.value = id;
+    option.textContent = `S${codeSeason}E${codeEpisode} ${name}`;
+    selector.append(option);
+  }
+}
+// STEP 11: when user selects an episode from the drop down, update the page to show only that episode
+function handleDropChange(event) { 
+  const dropChange = event.target.value;//event.target is the select element, .value is the value of the selected option, which is the id of the episode
+  location.hash = `#${dropChange}`;//location.hash is the part of the URL after the #, setting it to #id will scroll to the element with that id
+}
+
+
+
+
+
+
