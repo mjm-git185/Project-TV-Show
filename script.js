@@ -1,15 +1,17 @@
 // STEP 1: create state - store all episodes and current search term
 const state = { allEpisodes: getAllEpisodes(), searchTerm: "" };
-
+const episodeCount = document.getElementById("episode-count");
 
 // STEP 2: when the page loads, show all episodes
 function setup() {
   makePageForEpisodes(state.allEpisodes);
   createDropSelector(state.allEpisodes);
+  episodeCount.innerHTML = `Displaying episodes: ${state.allEpisodes.length} of ${state.allEpisodes.length}`;
 }
 
 // STEP 3: getting acsess to the dom eement i need (to put the episode cards)
 const rootElem = document.getElementById("root");
+
 
 
 // STEP 4: create and append episode cards to the page
@@ -56,8 +58,8 @@ function makePageForEpisodes(episodeList) {
       episode.summary.toLowerCase().includes(state.searchTerm.toLowerCase())
     );
   });
-
   createEpisodeCard(filteredEpisodes);
+  return filteredEpisodes;
 }
 
 // STEP 6: show all episodes for the first time before user does anything
@@ -73,6 +75,7 @@ function handleSearchInput(event) {
   const searchTerm = event.target.value; // event is automatically passed by the browser when user types; event.target is the input element, .value is the text inside it
   state.searchTerm = searchTerm; //save it to state
   makePageForEpisodes(state.allEpisodes); //re-render with new search term
+  episodeCount.innerHTML = `Displaying episodes: ${makePageForEpisodes(state.allEpisodes).length} of ${state.allEpisodes.length}`;
 }
 
 // STEP 9: setup when page load
