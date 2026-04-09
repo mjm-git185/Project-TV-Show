@@ -1,30 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TV Show Project | Martin McLean (mjm-git185)</title>
-    <link href="style.css" rel="stylesheet" />
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-  </head>
 
-  <body>
-    <label>
-      "Search"
-      <input type="text" id = "search" placeholder="Search for an episode" />
-    </label>
-    <div id="root">
-    </div>
-    <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
-    <script src="episodes.js"></script>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TV Show Project | Martin McLean (mjm-git185)</title>
+  <link href="style.css" rel="stylesheet" />
+  <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+</head>
 
-    <!-- Loads YOUR javascript code -->
-    <script src="script.js"></script>
-    <footer> 
-      <h3>
-        information gathred from 
-      </h3>
-      <a href = https://www.tvmaze.com/api#licensing.>tvmaze.com/api#licensing</a>
+<body>
+  <label>
+    "Search"
+    <input type="text" id="search" placeholder="Search for an episode" />
+  </label>
+  <p id="episode-count"></p>
+  <select id="selector">
+    <option value="value1" selected>Select an episode</option>
+  </select>
+  <div id="root">
+  </div>
+  <!-- Loads a provided function called getAllEpisodes() which returns all episodes -->
+  <script src="episodes.js"></script>
+
+  <!-- Loads YOUR javascript code -->
+  <script src="script.js"></script>
+  <footer>
+    <h3>
+      information gathred from
+    </h3>
+    <a href=https://www.tvmaze.com/api#licensing.>tvmaze.com/api#licensing</a>
   </footer>
-  </body>
+</body>
+
 </html>
