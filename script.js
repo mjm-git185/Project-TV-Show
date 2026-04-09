@@ -102,7 +102,7 @@ function handleDropChange(event) {
 }
 
 
-
-
+// I will delete this comment later. Just ignore it. 
+//каждый раз когда мы меняем селектор вызывается handleDropChange и в него передается хтмл код(селектор с опциями). значит  event.target.value = строка с определенным id.option value="4953". location.hash срабатывает как ссылка(якорь) и находит на странице карточку с тем же id и скролит пользователя туда
 
 
