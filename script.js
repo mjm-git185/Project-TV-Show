@@ -1,12 +1,35 @@
+let state = {}
+const allEpisodes = []
+async function getAllEpisodes() {
+  try {
+    const response = await fetch("https://api.tvmaze.com/shows/82/episodes");
+
+    const data = await response.json();
+
+    for (const episode of data) {
+      allEpisodes.push(episode);
+
+  }
+}
+catch (error) {
+    console.error("Error fetching data:", error);
+
+  }
+}
+
+
+
 // STEP 1: create state - store all episodes and current search term
-const state = { allEpisodes: getAllEpisodes(), searchTerm: "" };
-const episodeCount = document.getElementById("episode-count");
 
 // STEP 2: when the page loads, show all episodes
-function setup() {
+async function setup() {
+  await getAllEpisodes();
+state = { allEpisodes: allEpisodes, searchTerm: "" };
+
+
   makePageForEpisodes(state.allEpisodes);
-  createDropSelector(state.allEpisodes);
-  episodeCount.innerHTML = `Displaying episodes: ${state.allEpisodes.length} of ${state.allEpisodes.length}`;
+   createDropSelector(state.allEpisodes);
+
 }
 
 // STEP 3: getting acsess to the dom eement i need (to put the episode cards)
@@ -57,13 +80,17 @@ function makePageForEpisodes(episodeList) {
       episode.name.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
       episode.summary.toLowerCase().includes(state.searchTerm.toLowerCase())
     );
-  });
+  })
+  const episodeCount = document.getElementById("episode-count");
+
+   episodeCount.innerHTML = `Displaying episodes: ${filteredEpisodes.length} of ${state.allEpisodes.length}`;
+
   createEpisodeCard(filteredEpisodes);
   return filteredEpisodes;
 }
 
 // STEP 6: show all episodes for the first time before user does anything
-makePageForEpisodes(state.allEpisodes);
+
 
 // STEP 7: react if user type in search box
 const SearchBox = document.getElementById("search");
@@ -75,7 +102,6 @@ function handleSearchInput(event) {
   const searchTerm = event.target.value; // event is automatically passed by the browser when user types; event.target is the input element, .value is the text inside it
   state.searchTerm = searchTerm; //save it to state
   makePageForEpisodes(state.allEpisodes); //re-render with new search term
-  episodeCount.innerHTML = `Displaying episodes: ${makePageForEpisodes(state.allEpisodes).length} of ${state.allEpisodes.length}`;
 }
 
 // STEP 9: setup when page load
@@ -100,9 +126,6 @@ function handleDropChange(event) {
   const dropChange = event.target.value;//event.target is the select element, .value is the value of the selected option, which is the id of the episode
   location.hash = `#${dropChange}`;//location.hash is the part of the URL after the #, setting it to #id will scroll to the element with that id
 }
-
-
-
 
 
 
