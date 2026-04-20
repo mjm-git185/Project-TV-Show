@@ -1,4 +1,5 @@
 let state = {};
+let cache = {};
 let allShows = [];
 let allEpisodes = [];
 
@@ -13,9 +14,9 @@ async function getAllShows() {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
-  allShows.sort((a,b)=> {
+  allShows.sort((a, b) => {
     return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
-  })
+  });
 }
 
 async function getAllEpisodes() {
@@ -31,7 +32,6 @@ async function getAllEpisodes() {
     console.error("Error fetching data:", error);
   }
 }
-
 
 // STEP 2: when the page loads, show all episodes
 async function setup() {
@@ -111,7 +111,8 @@ window.onload = setup;
 // create a drop down selector for all episodes
 function createDropSelector(allEpisodes) {
   const episodeSelector = document.getElementById("episodeSelector");
-  episodeSelector.innerHTML = '<option value="value1" selected>Select an episode</option>';
+  episodeSelector.innerHTML =
+    '<option value="value1" selected>Select an episode</option>';
   episodeSelector.addEventListener("change", handleDropChange); //when user selects an episode, call handleDropChange which will find the anchor tag with the id and scroll to it
   for (const episode of allEpisodes) {
     const { id, name, season, number } = episode;
@@ -132,7 +133,8 @@ function handleDropChange(event) {
 // create a drop down selector for all shows
 function createShowDropSelector(allShows) {
   const showSelector = document.getElementById("showSelector");
-  showSelector.innerHTML = '<option value="value1" selected>Select a show</option>';
+  showSelector.innerHTML =
+    '<option value="value1" selected>Select a show</option>';
   showSelector.addEventListener("change", handleShowDropChange);
   for (const show of allShows) {
     const { id, name } = show;
@@ -145,10 +147,16 @@ function createShowDropSelector(allShows) {
 
 async function handleShowDropChange(event) {
   const showId = event.target.value;
-  const response = await fetch(`https://api.tvmaze.com/shows/${showId}/episodes`);
-  const data = await response.json();
-  state = { allEpisodes: data, searchTerm: "" };
+  if (cache[showId]) {
+    state = { allEpisodes: cache[showId], searchTerm: "" };
+  } else {
+    const response = await fetch(
+      `https://api.tvmaze.com/shows/${showId}/episodes`,
+    );
+    const data = await response.json();
+    cache[showId] ||= data;
+    state = { allEpisodes: data, searchTerm: "" };
+  }
   makePageForEpisodes(state.allEpisodes);
   createDropSelector(state.allEpisodes);
 }
-
