@@ -13,6 +13,9 @@ async function getAllShows() {
   } catch (error) {
     console.error("Error fetching data:", error);
   }
+  allShows.sort((a,b)=> {
+    return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
+  })
 }
 
 async function getAllEpisodes() {
