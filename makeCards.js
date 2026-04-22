@@ -31,7 +31,8 @@ function createEpisodeCard(episodeList) {
 }
 function createShowCard(showList) {
   for (let i = 0; i < showList.length; i++) {
-    const { id, name, summary, image } = showList[i];
+    const { id, name, image, summary, genres, status, runtime, rating } =
+      showList[i];
     const { medium } = image;
 
     const perShow = document.createElement("div");
@@ -42,6 +43,22 @@ function createShowCard(showList) {
     const pic = new Image();
     pic.src = medium;
     perShow.appendChild(pic);
+    pic.addEventListener("click", async () => {
+      if (cache[id]) {
+        state = { allEpisodes: cache[id], searchTerm: "" };
+      } else {
+        const response = await fetch(
+          `https://api.tvmaze.com/shows/${id}/episodes`,
+        );
+        const data = await response.json();
+        cache[id] = data;
+        state = { allEpisodes: data, searchTerm: "" };
+      }
+
+      makePageForEpisodes(state.allEpisodes);
+      createDropSelector(state.allEpisodes);
+    });
+
     const title = document.createTextNode(name);
 
     const summaryOfShow = document.createElement("p");
@@ -49,9 +66,39 @@ function createShowCard(showList) {
     summaryOfShow.innerHTML = summary;
     perShow.appendChild(title);
     perShow.appendChild(summaryOfShow);
+
+    const genreOfShow = document.createElement("p");
+    genreOfShow.className = "genre";
+    genreOfShow.innerHTML = `Genre: ${genres}`;
+    perShow.appendChild(genreOfShow);
+
+    const statusOfShow = document.createElement("p");
+    statusOfShow.className = "status";
+    statusOfShow.innerHTML = `Status: ${status}`;
+    perShow.appendChild(statusOfShow);
+
+    const runtimeOfShow = document.createElement("p");
+    runtimeOfShow.className = "runtime";
+    runtimeOfShow.innerHTML = `Runtime: ${runtime} minutes`;
+    perShow.appendChild(runtimeOfShow);
+
+    const ratingOfShow = document.createElement("p");
+    ratingOfShow.className = "rating";
+    ratingOfShow.innerHTML = `Rating: ${rating.average}`;
+    perShow.appendChild(ratingOfShow);
   }
+
+  return showList;
 }
-// STEP 5: render - clear page, filter episodes, show the results
+
+function makePageForShows(allShows) {
+  rootElem.innerHTML = "";
+  createShowCard(allShows);
+
+  return allShows;
+}
+
+// // STEP 5: render - clear page, filter episodes, show the results
 function makePageForEpisodes(episodeList) {
   rootElem.innerHTML = ""; // clear previous results
   const filteredEpisodes = episodeList.filter((episode) => {

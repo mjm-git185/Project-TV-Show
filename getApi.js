@@ -7,6 +7,7 @@ async function getAllShows() {
   try {
     const response = await fetch("https://api.tvmaze.com/shows");
     const data = await response.json();
+    allShows = [];
 
     for (const show of data) {
       allShows.push(show);
