@@ -43,7 +43,6 @@ async function setup() {
   state["allShows"] = allShows;
   createShowDropSelector(state.allShows);
 }
-
 // STEP 3: getting acsess to the dom eement i need (to put the episode cards)
 const rootElem = document.getElementById("root");
 
@@ -79,7 +78,28 @@ function createEpisodeCard(episodeList) {
     perEpisode.appendChild(summaryOfEpisode);
   }
 }
+function createShowCard(showList) {
+  for (let i = 0; i < showList.length; i++) {
+    const { id, name, summary, image } = showList[i];
+    const { medium } = image;
 
+    const perShow = document.createElement("div");
+    perShow.className = "showInfo";
+    perShow.id = id;
+
+    rootElem.appendChild(perShow);
+    const pic = new Image();
+    pic.src = medium;
+    perShow.appendChild(pic);
+    const title = document.createTextNode(name);
+
+    const summaryOfShow = document.createElement("p");
+    summaryOfShow.className = "summary";
+    summaryOfShow.innerHTML = summary;
+    perShow.appendChild(title);
+    perShow.appendChild(summaryOfShow);
+  }
+}
 // STEP 5: render - clear page, filter episodes, show the results
 function makePageForEpisodes(episodeList) {
   rootElem.innerHTML = ""; // clear previous results
