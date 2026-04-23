@@ -96,17 +96,31 @@ function createShowCard(showList) {
 
 function makePageForShows(allShows) {
   rootElem.innerHTML = "";
+  searchBox.style.visibility = "hidden";
+  showSearchBox.style.visibility = "visible";
+
   const episodeCount = document.getElementById("episode-count");
   episodeCount.innerHTML = `Displaying shows: ${allShows.length}`;
 
-  createShowCard(allShows);
+  const term = state.showSearchTerm?.toLowerCase() || "";
+
+  allShowsFiltered = allShows.filter((show) => {
+    return (
+      show.name.toLowerCase().includes(term) ||
+      show.summary.toLowerCase().includes(term) ||
+      show.genres.some((genre) => genre.toLowerCase().includes(term)) ||
+      show.status.toLowerCase().includes(term)
+    );
+  });
+  createShowCard(allShowsFiltered);
 
   return allShows;
 }
-
 // // STEP 5: render - clear page, filter episodes, show the results
 function makePageForEpisodes(episodeList) {
   rootElem.innerHTML = ""; // clear previous results
+  searchBox.style.visibility = "visible";
+  showSearchBox.style.visibility = "hidden";
   const filteredEpisodes = episodeList.filter((episode) => {
     return (
       episode.name.toLowerCase().includes(state.searchTerm.toLowerCase()) ||
@@ -121,8 +135,16 @@ function makePageForEpisodes(episodeList) {
   return filteredEpisodes;
 }
 
-const SearchBox = document.getElementById("search");
-SearchBox.addEventListener("input", handleSearchInput);
+const searchBox = document.getElementById("searchEpisods");
+searchBox.addEventListener("input", handleSearchInput);
+const showSearchBox = document.getElementById("searchShows");
+showSearchBox.addEventListener("input", handleShowSearchInput);
+
+function handleShowSearchInput(event) {
+  const showearchTerm = event.target.value;
+  state.showSearchTerm = showearchTerm;
+  makePageForShows(state.allShows);
+}
 
 function handleSearchInput(event) {
   const searchTerm = event.target.value; // event is automatically passed by the browser when user types; event.target is the input element, .value is the text inside it
