@@ -98,6 +98,7 @@ function makePageForShows(allShows) {
   rootElem.innerHTML = "";
   const episodeCount = document.getElementById("episode-count");
   episodeCount.innerHTML = `Displaying shows: ${allShows.length}`;
+
   createShowCard(allShows);
 
   return allShows;
