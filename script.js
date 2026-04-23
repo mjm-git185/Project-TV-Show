@@ -1,5 +1,4 @@
-// STEP 2: when the page loads, show all episodes
-
+// sets up and initializes the page
 async function setup() {
   rootElem.innerHTML = "";
 
@@ -7,18 +6,15 @@ async function setup() {
   await getAllShows();
   state = { allEpisodes: allEpisodes, searchTerm: "" };
   makePageForShows(allShows);
-  //makePageForEpisodes(state.allEpisodes);
   createDropSelector(state.allEpisodes);
   state["allShows"] = allShows;
   createShowDropSelector(state.allShows);
 }
-// STEP 3: getting acsess to the dom eement i need (to put the episode cards)
+// STEP 3: getting acsess to the dom element
 const rootElem = document.getElementById("root");
 
 const back = document.getElementById("back");
 back.addEventListener("click", () => {
   setup();
 });
-
-// STEP 4: create and append episode cards to the page
 window.onload = setup;

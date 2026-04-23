@@ -29,6 +29,8 @@ function createEpisodeCard(episodeList) {
     perEpisode.appendChild(summaryOfEpisode);
   }
 }
+// loop for extracting the data and making any ajustments
+
 function createShowCard(showList) {
   for (let i = 0; i < showList.length; i++) {
     const { id, name, image, summary, genres, status, runtime, rating } =
@@ -38,6 +40,7 @@ function createShowCard(showList) {
     const perShow = document.createElement("div");
     perShow.className = "showInfo";
     perShow.id = id;
+    //apends a div and a srting inside it
 
     rootElem.appendChild(perShow);
     const pic = new Image();
@@ -93,6 +96,8 @@ function createShowCard(showList) {
 
 function makePageForShows(allShows) {
   rootElem.innerHTML = "";
+  const episodeCount = document.getElementById("episode-count");
+  episodeCount.innerHTML = `Displaying shows: ${allShows.length}`;
   createShowCard(allShows);
 
   return allShows;
